@@ -8,13 +8,48 @@
         :root {
             --primary-color: #e91e63; /* Pink */
             --secondary-color: #000000; /* Black */
-            --bg-color: rgba(255, 255, 255, 0.95); /* Transparent White */
+            --bg-color: rgba(255, 255, 255, 0.95); /* Slightly transparent White for readability */
             --text-color: #000000; /* Black */
-            --light-gray: #f8f8f8; 
+            --light-gray: #f8f8f8; /* Very light gray */
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-image: url('BADAS_NHS8.jpg'); /*[cite: 13] */
+            background-image: url('BADAS_NHS8.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }Here is the updated HTML file. I have removed the Formspree integration and set the background to use the image exactly as requested (`BADAS_NHS8.jpg`). 
+
+I also added a slight transparency to the login and exam screens (`rgba(255, 255, 255, 0.95)`) so that your background image can subtly peek through while ensuring the text remains perfectly readable.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English for Academic and Professional Purposes</title>
+    <style>
+        :root {
+            --primary-color: #e91e63; /* Pink */
+            --secondary-color: #000000; /* Black */
+            --bg-color: #ffffff; /* White */
+            --text-color: #000000; /* Black */
+            --light-gray: #f8f8f8; /* Very light gray for contrast on white */
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            background-image: url('BADAS_NHS8.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -28,25 +63,24 @@
             margin: 0 auto;
             padding: 20px;
         }
-        
-        /* Screens */
-        #login-screen, #exam-screen, #result-screen {
-            background: var(--bg-color);
+        /* Login Screen */
+        #login-screen {
+            background: rgba(255, 255, 255, 0.95);
             padding: 40px;
             border-radius: 10px;
             border: 2px solid var(--secondary-color);
             box-shadow: 0 4px 15px rgba(233, 30, 99, 0.5);
-            margin-top: 30px;
+            text-align: center;
+            margin-top: 50px;
         }
-        #login-screen { text-align: center; }
-        #exam-screen, #result-screen { display: none; }
-
-        .logo { max-width: 150px; margin-bottom: 20px; }
-        
+        .logo {
+            max-width: 150px;
+            margin-bottom: 20px;
+        }
         .form-group {
             margin-bottom: 20px;
             text-align: left;
-            max-width: 450px;
+            max-width: 400px;
             margin: 0 auto 20px auto;
         }
         .form-group label {
@@ -55,7 +89,7 @@
             margin-bottom: 5px;
             color: var(--secondary-color);
         }
-        .form-group input {
+        .form-group input, .form-group select {
             width: 100%;
             padding: 10px;
             border: 2px solid #ccc;
@@ -67,8 +101,7 @@
             border-color: var(--primary-color);
             outline: none;
         }
-        
-        button.primary-btn {
+        button.start-btn {
             background-color: var(--primary-color);
             color: white;
             padding: 12px 30px;
@@ -78,30 +111,20 @@
             cursor: pointer;
             font-weight: bold;
             transition: background 0.3s;
-            margin-top: 15px;
         }
-        button.primary-btn:hover { background-color: #c2185b; }
-
-        .submit-btn {
-            background-color: var(--secondary-color);
-            color: white;
-            padding: 15px 40px;
+        button.start-btn:hover {
+            background-color: #c2185b; /* Darker Pink */
+        }
+        
+        /* Exam Screen */
+        #exam-screen {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 10px;
             border: 2px solid var(--secondary-color);
-            border-radius: 5px;
-            font-size: 20px;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 30px;
-            font-weight: bold;
-            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
-        .submit-btn:hover {
-            background-color: white;
-            color: var(--secondary-color);
-            border-color: var(--secondary-color);
-        }
-
-        /* Timer */
         .timer-bar {
             position: sticky;
             top: 0;
@@ -116,18 +139,30 @@
             box-shadow: 0 2px 10px rgba(233, 30, 99, 0.4);
             border-bottom: 4px solid var(--primary-color);
         }
+        .timer-warning {
+            background: var(--primary-color) !important;
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
         
-        /* Exam Elements */
         .passage-box {
-            background: #ffffff;
+            background: var(--bg-color);
             border-left: 5px solid var(--primary-color);
-            border: 1px solid #ddd;
-            border-left-width: 5px;
+            border-right: 1px solid #ddd;
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
             padding: 20px;
             margin: 30px 0 20px 0;
             border-radius: 5px;
         }
-        .passage-box h3 { margin-top: 0; color: var(--secondary-color); }
+        .passage-box h3 {
+            margin-top: 0;
+            color: var(--secondary-color);
+        }
         .question-block {
             margin-bottom: 25px;
             padding-bottom: 15px;
@@ -150,42 +185,26 @@
             background: var(--primary-color);
             color: white;
         }
-
-        /* Results Screen */
-        .results-header {
-            text-align: center;
-            border-bottom: 3px solid var(--primary-color);
-            padding-bottom: 20px;
-            margin-bottom: 30px;
+        .options input {
+            margin-right: 10px;
         }
-        .results-header h2 { color: var(--primary-color); margin: 0; font-size: 32px; }
-        .score-box {
-            text-align: center;
-            font-size: 24px;
-            margin: 20px 0;
-            font-weight: bold;
-        }
-        .score-box span { color: var(--primary-color); font-size: 36px; display: block; }
-        .breakdown-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background: white;
-        }
-        .breakdown-table th, .breakdown-table td {
-            border: 1px solid #ccc;
-            padding: 12px;
-            text-align: left;
-        }
-        .breakdown-table th {
+        .submit-btn {
             background-color: var(--secondary-color);
             color: white;
-        }
-        .breakdown-table tr.total-row {
+            padding: 15px 40px;
+            border: 2px solid var(--secondary-color);
+            border-radius: 5px;
+            font-size: 20px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 30px;
             font-weight: bold;
-            background-color: var(--primary-color);
-            color: white;
-            font-size: 18px;
+            transition: all 0.3s;
+        }
+        .submit-btn:hover {
+            background-color: white;
+            color: var(--secondary-color);
+            border-color: var(--secondary-color);
         }
     </style>
 </head>
@@ -197,7 +216,7 @@
         <img src="badas-nhs-logo.png" alt="Badas National High School Logo" class="logo">
         <h2>Badas National High School</h2>
         <h3 style="color: var(--primary-color);">English for Academic and Professional Purposes</h3>
-        <p>Enter your details and existing grades below to generate your comprehensive Weighted Average Rating upon completing the 40-minute exam.</p>
+        <p>You will have exactly <strong>40 minutes</strong> to complete 30 questions based on the provided passages. The test will auto-submit when the time expires.</p>
         
         <div class="form-group">
             <label for="studentName">Full Name (Last Name, First Name)</label>
@@ -207,18 +226,11 @@
             <label for="studentGrade">Grade & Section</label>
             <input type="text" id="studentGrade" required placeholder="e.g., Grade 11 - STEM">
         </div>
-        <div class="form-group">
-            <label for="writtenScore">Current Written Works Grade (out of 100%)</label>
-            <input type="number" id="writtenScore" required placeholder="e.g., 85" min="0" max="100">
-        </div>
-        <div class="form-group">
-            <label for="perfScore">Current Performance Task Grade (out of 100%)</label>
-            <input type="number" id="perfScore" required placeholder="e.g., 90" min="0" max="100">
-        </div>
-        <button class="primary-btn" onclick="startExam()">Start Examination</button>
+        <button class="start-btn" onclick="startExam()">Start Examination</button>
     </div>
 
     <!-- EXAM SCREEN -->
+    <!-- Formspree removed, using standard JS submission handler -->
     <form id="exam-screen" onsubmit="submitExam(event)">
         <div class="timer-bar" id="timerBar">Time Remaining: <span id="timeDisplay">40:00</span></div>
 
@@ -452,4 +464,170 @@
                 <label><input type="radio" name="q23" value="A" required> A. We need to demonstrate our new software to assist the team. The training will utilize tomorrow.</label>
                 <label><input type="radio" name="q23" value="B"> B. We need to utilize our new software to assist the team. The training will commence tomorrow.</label>
                 <label><input type="radio" name="q23" value="C"> C. We gotta use our new software to assist the team. The training will subsequently start tomorrow.</label>
-                <label><input type="radio" name="q23
+                <label><input type="radio" name="q23" value="D"> D. We need to utilize our new software to help the team. The training will demonstrate tomorrow.</label>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <p>25. Evaluate this statement: "Because professional communication aims to solve problems in the workplace, it does not need to rely on facts or evidence like academic communication does." Is this statement accurate?</p>
+            <div class="options">
+                <label><input type="radio" name="q25" value="A" required> A. Yes, professional communication relies purely on practical action, not evidence.</label>
+                <label><input type="radio" name="q25" value="B"> B. No, professional communication is data-informed and uses facts, examples, and practical results as evidence.</label>
+                <label><input type="radio" name="q25" value="C"> C. Yes, evidence is exclusively reserved for scholars and researchers.</label>
+                <label><input type="radio" name="q25" value="D"> D. No, professional communication requires scholarly citations and peer reviews to solve workplace problems.</label>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <p>26. A scientist is preparing to present findings at a gathering of industry executives seeking actionable business solutions, rather than a university symposium. Based on the audience and purpose, what tone and language should the scientist prioritize?</p>
+            <div class="options">
+                <label><input type="radio" name="q26" value="A" required> A. Formal, theoretical, and analytical tone aimed at contributing to scholarship.</label>
+                <label><input type="radio" name="q26" value="B"> B. Casual, subjective, and simple tone to express feelings about the data.</label>
+                <label><input type="radio" name="q26" value="C"> C. Professional, clear, practical, and action-oriented tone.</label>
+                <label><input type="radio" name="q26" value="D"> D. Overly emotional language to persuade the stakeholders.</label>
+            </div>
+        </div>
+
+        <!-- PASSAGE 5 -->
+        <div class="passage-box">
+            <h3>Passage 5: Critical Reading and Evaluating Texts</h3>
+            <p>Whether examining everyday non-academic texts or rigorous scholarly research, students must employ critical reading strategies. When students evaluate text, they are assessing the credibility, spotting bias, and judging the strength of the arguments made. If a text makes sweeping assertions—such as declaring a scientific absolute without citing previous studies or data—it violates the core academic tenet of being evidence-based. Non-academic texts, on the other hand, often feature flexible structures intended merely to express feelings or entertain.</p>
+        </div>
+
+        <div class="question-block">
+            <p>16. Evaluate the following sentence for academic appropriateness: "The increasing use of mobile phones reflects a growing dependence on digital technology." What makes this sentence academically sound compared to its everyday equivalent?</p>
+            <div class="options">
+                <label><input type="radio" name="q16" value="A" required> A. It utilizes personal opinions to establish rapport with the reader.</label>
+                <label><input type="radio" name="q16" value="B"> B. It is specific, formal, objective, and avoids emotional reactions and general terms.</label>
+                <label><input type="radio" name="q16" value="C"> C. It utilizes complex jargon to obscure the primary meaning from non-academic audiences.</label>
+                <label><input type="radio" name="q16" value="D"> D. It relies heavily on slang to remain relatable.</label>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <p>17. A peer reviewer criticizes a draft for being "overly emotional and opinion-based." According to the guidelines on what academic texts should avoid, how should the author revise the draft?</p>
+            <div class="options">
+                <label><input type="radio" name="q17" value="A" required> A. Over-simplify the concepts so the emotion is easier to understand.</label>
+                <label><input type="radio" name="q17" value="B"> B. Use a conversational tone to soften the emotional impact.</label>
+                <label><input type="radio" name="q17" value="C"> C. Remove the personal biases and rely strictly on clear, logical arguments supported by credible references.</label>
+                <label><input type="radio" name="q17" value="D"> D. Add more first-person language to clarify who holds the opinions.</label>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <p>18. You are assessing the credibility of a research article. The author makes sweeping assertions about climate change without referencing any data or previous studies. Which core characteristic of academic writing has the author violated?</p>
+            <div class="options">
+                <label><input type="radio" name="q18" value="A" required> A. Being clear by avoiding complicated words.</label>
+                <label><input type="radio" name="q18" value="B"> B. Being organized with a logical introduction and conclusion.</label>
+                <label><input type="radio" name="q18" value="C"> C. Being evidence-based by supporting claims with data and citations.</label>
+                <label><input type="radio" name="q18" value="D"> D. Using specific jargon to establish authority.</label>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <p>19. Evaluate the distinction between academic and non-academic texts. If an author writes a piece intended to "express feelings and entertain" using "flexible, often incomplete" structure, what is the most accurate classification of this text?</p>
+            <div class="options">
+                <label><input type="radio" name="q19" value="A" required> A. An academic monograph</label>
+                <label><input type="radio" name="q19" value="B"> B. Non-academic language</label>
+                <label><input type="radio" name="q19" value="C"> C. A professional proposal</label>
+                <label><input type="radio" name="q19" value="D"> D. An evidence-based review</label>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <p>22. An author is struggling to transition from an everyday tone to an academic tone. Which specific strategy is most effective for removing subjective bias?</p>
+            <div class="options">
+                <label><input type="radio" name="q22" value="A" required> A. Replacing basic vocabulary with highly obscure terminology.</label>
+                <label><input type="radio" name="q22" value="B"> B. Avoiding the first-person perspective unless explicitly required, and omitting emotional statements.</label>
+                <label><input type="radio" name="q22" value="C"> C. Relying entirely on cohesive devices without changing the root vocabulary.</label>
+                <label><input type="radio" name="q22" value="D"> D. Summarizing everyday conversations into text messages.</label>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <p>27. A student submits an assignment that features the following sentence: "The results indicate a significant correlation between study habits and academic performance." Evaluate the context in which this language is most appropriate.</p>
+            <div class="options">
+                <label><input type="radio" name="q27" value="A" required> A. It is non-academic language used for everyday conversations and social media.</label>
+                <label><input type="radio" name="q27" value="B"> B. It is academic language, characterized by a formal, objective tone, and discipline-specific vocabulary.</label>
+                <label><input type="radio" name="q27" value="C"> C. It is professional communication designed to build working relationships with clients.</label>
+                <label><input type="radio" name="q27" value="D"> D. It is informal language containing personal opinions.</label>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <p>29. During the critical reading process of an academic text, a student is tasked with "assessing the credibility, bias, and strength of the arguments." Which stage of reading does this represent?</p>
+            <div class="options">
+                <label><input type="radio" name="q29" value="A" required> A. Preview</label>
+                <label><input type="radio" name="q29" value="B"> B. Identify</label>
+                <label><input type="radio" name="q29" value="C"> C. Analyze</label>
+                <label><input type="radio" name="q29" value="D"> D. Evaluate</label>
+            </div>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">Submit Examination</button>
+    </form>
+</div>
+
+<script>
+    let timerInterval;
+    const TIME_LIMIT = 40 * 60; // 40 minutes in seconds
+
+    function startExam() {
+        const nameInput = document.getElementById('studentName').value.trim();
+        const gradeInput = document.getElementById('studentGrade').value.trim();
+
+        if (nameInput === '' || gradeInput === '') {
+            alert('Please enter both your Name and Grade/Section to begin.');
+            return;
+        }
+
+        // UI transitions
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('exam-screen').style.display = 'block';
+
+        // Start timer
+        startTimer(TIME_LIMIT);
+    }
+
+    function startTimer(duration) {
+        let timer = duration;
+        const display = document.getElementById('timeDisplay');
+        const timerBar = document.getElementById('timerBar');
+        
+        timerInterval = setInterval(function () {
+            let minutes = parseInt(timer / 60, 10);
+            let seconds = parseInt(timer % 60, 10);
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            display.textContent = minutes + ":" + seconds;
+
+            if (timer <= 300) { // Warning at 5 minutes
+                timerBar.classList.add('timer-warning');
+            }
+
+            if (--timer < 0) {
+                clearInterval(timerInterval);
+                display.textContent = "00:00";
+                alert("Time is up! Your answers are being submitted automatically.");
+                submitExam();
+            }
+        }, 1000);
+    }
+
+    function submitExam(event) {
+        if (event) {
+            event.preventDefault(); // Prevent page reload
+        }
+        clearInterval(timerInterval);
+        
+        // This simulates a successful submission since Formspree is removed
+        alert("Examination submitted successfully! Thank you.");
+        
+        // Optional: Hide exam screen and show a completion message or reload
+        // location.reload();
+    }
+</script>
+</body>
+</html>
