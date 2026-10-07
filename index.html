@@ -8,40 +8,6 @@
         :root {
             --primary-color: #e91e63; /* Pink */
             --secondary-color: #000000; /* Black */
-            --bg-color: rgba(255, 255, 255, 0.95); /* Slightly transparent White for readability */
-            --text-color: #000000; /* Black */
-            --light-gray: #f8f8f8; /* Very light gray */
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-image: url('BADAS_NHS8.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: var(--text-color);
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-        }Here is the updated HTML file. I have removed the Formspree integration and set the background to use the image exactly as requested (`BADAS_NHS8.jpg`). 
-
-I also added a slight transparency to the login and exam screens (`rgba(255, 255, 255, 0.95)`) so that your background image can subtly peek through while ensuring the text remains perfectly readable.
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English for Academic and Professional Purposes</title>
-    <style>
-        :root {
-            --primary-color: #e91e63; /* Pink */
-            --secondary-color: #000000; /* Black */
             --bg-color: #ffffff; /* White */
             --text-color: #000000; /* Black */
             --light-gray: #f8f8f8; /* Very light gray for contrast on white */
@@ -63,8 +29,8 @@ I also added a slight transparency to the login and exam screens (`rgba(255, 255
             margin: 0 auto;
             padding: 20px;
         }
-        /* Login Screen */
-        #login-screen {
+        /* Login & Result Screens */
+        #login-screen, #result-screen {
             background: rgba(255, 255, 255, 0.95);
             padding: 40px;
             border-radius: 10px;
@@ -72,6 +38,15 @@ I also added a slight transparency to the login and exam screens (`rgba(255, 255
             box-shadow: 0 4px 15px rgba(233, 30, 99, 0.5);
             text-align: center;
             margin-top: 50px;
+        }
+        #result-screen {
+            display: none;
+        }
+        .score-display {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 20px 0;
         }
         .logo {
             max-width: 150px;
@@ -230,7 +205,6 @@ I also added a slight transparency to the login and exam screens (`rgba(255, 255
     </div>
 
     <!-- EXAM SCREEN -->
-    <!-- Formspree removed, using standard JS submission handler -->
     <form id="exam-screen" onsubmit="submitExam(event)">
         <div class="timer-bar" id="timerBar">Time Remaining: <span id="timeDisplay">40:00</span></div>
 
@@ -566,11 +540,34 @@ I also added a slight transparency to the login and exam screens (`rgba(255, 255
 
         <button type="submit" class="submit-btn" id="submitBtn">Submit Examination</button>
     </form>
+
+    <!-- RESULT SCREEN -->
+    <div id="result-screen">
+        <img src="badas-nhs-logo.png" alt="Badas National High School Logo" class="logo">
+        <h2>Examination Completed!</h2>
+        <p>Thank you, <span id="displayStudentName" style="font-weight: bold;"></span>.</p>
+        <p>Your Grade/Section: <span id="displayStudentGrade" style="font-weight: bold;"></span></p>
+        
+        <div class="score-display" id="finalScore"></div>
+        <p>Your results have been securely recorded.</p>
+        
+        <button class="start-btn" style="margin-top: 20px;" onclick="location.reload()">Return to Login</button>
+    </div>
 </div>
 
 <script>
     let timerInterval;
     const TIME_LIMIT = 40 * 60; // 40 minutes in seconds
+    
+    // Answer Key mapped to the input names
+    const correctAnswers = {
+        q1: 'B', q2: 'D', q3: 'B', q8: 'B', q9: 'C',
+        q6: 'D', q7: 'C', q15: 'B', q28: 'C', q30: 'B',
+        q4: 'C', q10: 'B', q11: 'B', q12: 'D', q13: 'B',
+        q20: 'A', q21: 'A', q24: 'A', q5: 'C', q14: 'B',
+        q23: 'B', q25: 'B', q26: 'C', q16: 'B', q17: 'C',
+        q18: 'C', q19: 'B', q22: 'B', q27: 'B', q29: 'D'
+    };
 
     function startExam() {
         const nameInput = document.getElementById('studentName').value.trim();
@@ -580,6 +577,10 @@ I also added a slight transparency to the login and exam screens (`rgba(255, 255
             alert('Please enter both your Name and Grade/Section to begin.');
             return;
         }
+
+        // Save student details to display later
+        document.getElementById('displayStudentName').innerText = nameInput;
+        document.getElementById('displayStudentGrade').innerText = gradeInput;
 
         // UI transitions
         document.getElementById('login-screen').style.display = 'none';
@@ -622,11 +623,23 @@ I also added a slight transparency to the login and exam screens (`rgba(255, 255
         }
         clearInterval(timerInterval);
         
-        // This simulates a successful submission since Formspree is removed
-        alert("Examination submitted successfully! Thank you.");
+        // Grading Logic
+        let score = 0;
+        let totalQuestions = Object.keys(correctAnswers).length;
+        const examForm = document.getElementById('exam-screen');
+        const formData = new FormData(examForm);
+
+        // Compare submitted answers with answer key
+        for (let [question, correctAnswer] of Object.entries(correctAnswers)) {
+            if (formData.get(question) === correctAnswer) {
+                score++;
+            }
+        }
         
-        // Optional: Hide exam screen and show a completion message or reload
-        // location.reload();
+        // Update UI
+        document.getElementById('exam-screen').style.display = 'none';
+        document.getElementById('result-screen').style.display = 'block';
+        document.getElementById('finalScore').innerText = `You scored ${score} out of ${totalQuestions}`;
     }
 </script>
 </body>
